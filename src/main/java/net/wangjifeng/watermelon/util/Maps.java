@@ -4,7 +4,10 @@ import net.wangjifeng.watermelon.Fun;
 import net.wangjifeng.watermelon.base.Castor;
 import net.wangjifeng.watermelon.base.SimpleCastor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author: wjf
@@ -33,7 +36,7 @@ public class Maps {
      */
     public static <SK, SV, RK, RV> Map<RK, RV> transformMap(Map<SK, SV> sourceMap, Fun<SK, RK> keyFun, Fun<SV, RV> valueFun) {
         if (Nils.isNil(sourceMap)) {
-            return Collections.emptyMap();
+            return newHashMap();
         }
         Nils.requireNonNil(keyFun);
         Nils.requireNonNil(valueFun);

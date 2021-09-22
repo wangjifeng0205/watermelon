@@ -4,7 +4,6 @@ import net.wangjifeng.watermelon.Fun;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +30,7 @@ public class Lists {
      */
     public static <S, R> List<R> transformList(List<S> source, Fun<S, R> fun) {
         if (Nils.isNil(source)) {
-            return Collections.emptyList();
+            return newArrayList();
         }
         Nils.requireNonNil(fun);
         return source.stream().map(fun::fun).collect(Collectors.toList());
@@ -47,7 +46,7 @@ public class Lists {
     @SafeVarargs
     public static <T> List<T> newList(T... ts) {
         if (Nils.isNil(ts)) {
-            return new ArrayList<>();
+            return newArrayList();
         }
         return Arrays.stream(ts).collect(Collectors.toList());
     }
