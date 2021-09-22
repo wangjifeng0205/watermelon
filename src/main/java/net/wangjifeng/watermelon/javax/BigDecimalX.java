@@ -1,4 +1,4 @@
-package net.wangjifeng.watermelon.base;
+package net.wangjifeng.watermelon.javax;
 
 import java.math.BigDecimal;
 

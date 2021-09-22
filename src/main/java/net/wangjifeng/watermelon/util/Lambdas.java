@@ -12,6 +12,10 @@ import net.wangjifeng.watermelon.Producer;
  */
 public class Lambdas {
 
+    private Lambdas() {}
+
+    // ***** PUBLIC *****
+
     /**
      * 提供者提供元素，fun将其转化为另一种元素。
      *
@@ -45,5 +49,9 @@ public class Lambdas {
         consumer.consume(r);
         return r;
     }
+
+    // ***** PRIVATE *****
+
+    // ***** CLASS *****
 
 }

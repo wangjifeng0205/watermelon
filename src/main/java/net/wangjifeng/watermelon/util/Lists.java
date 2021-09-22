@@ -2,6 +2,7 @@ package net.wangjifeng.watermelon.util;
 
 import net.wangjifeng.watermelon.Fun;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
 public class Lists {
 
     private Lists() {}
+
+    // ***** PUBLIC *****
 
     /**
      * 将源list转换为结果list。
@@ -41,11 +44,41 @@ public class Lists {
      * @param <T> {@link T}
      * @return List<T>
      */
+    @SafeVarargs
     public static <T> List<T> newList(T... ts) {
         if (Nils.isNil(ts)) {
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
         return Arrays.stream(ts).collect(Collectors.toList());
     }
+
+    /**
+     * 创建一个初始化容量的list。
+     *
+     * @param cap 容量
+     * @param <T> {@link T}
+     * @return List<T>
+     */
+    public static <T> List<T> newList(int... cap) {
+        return newArrayList(cap);
+    }
+
+    // ***** PRIVATE *****
+
+    /**
+     * 创建arrayList。
+     *
+     * @param cap 容量
+     * @param <E> {@link E}
+     * @return ArrayList<E>
+     */
+    private static <E> ArrayList<E> newArrayList(int... cap) {
+        if (Nils.isNil(cap)) {
+            return new ArrayList<>();
+        }
+        return new ArrayList<>(cap[0]);
+    }
+
+    // ***** CLASS *****
 
 }

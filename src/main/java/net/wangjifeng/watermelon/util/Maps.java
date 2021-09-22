@@ -53,14 +53,24 @@ public class Maps {
      */
     public static <K, V> Map<K, V> newMap(Object... pairs) {
         if (Nils.isNil(pairs)) {
-            return new HashMap<>(0);
+            return newHashMap();
         }
         HashMap<K, V> result = new HashMap<>(pairs.length / 2);
-        List<Pair<Object, Object>> kvPairs = assemblyPairs(pairs);
-        Castor<Object, K> keyCastor = new SimpleCastor<>();
-        Castor<Object, V> valueCastor = new SimpleCastor<>();
-        kvPairs.forEach(pair -> result.put(keyCastor.cast(pair.getKey()), valueCastor.cast(pair.getValue())));
+        List<Pair<K, V>> kvPairs = assemblyPairs(pairs);
+        kvPairs.forEach(pair -> result.put(pair.getKey(), pair.getValue()));
         return result;
+    }
+
+    /**
+     * 创建hashMap。
+     *
+     * @param cap 容量
+     * @param <K> {@link K}
+     * @param <V> {@link V}
+     * @return HashMap<K, V>
+     */
+    private static <K, V> HashMap<K, V> newMap(int... cap) {
+        return newHashMap(cap);
     }
 
     /**
@@ -107,12 +117,27 @@ public class Maps {
         return result;
     }
 
+    /**
+     * 创建hashMap。
+     *
+     * @param cap 容量
+     * @param <K> {@link K}
+     * @param <V> {@link V}
+     * @return HashMap<K, V>
+     */
+    private static <K, V> HashMap<K, V> newHashMap(int... cap) {
+        if (Nils.isNil(cap)) {
+            return new HashMap<>();
+        }
+        return new HashMap<>(cap[0]);
+    }
+
     // ***** CLASS *****
 
     /**
      * 内置的{@link Map}键值对。
      */
-    static class Pair<K, V> {
+    private static class Pair<K, V> {
 
         private K key;
 
