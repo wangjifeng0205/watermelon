@@ -2,12 +2,10 @@ package net.wangjifeng.watermelon.util;
 
 import net.wangjifeng.watermelon.base.Castor;
 import net.wangjifeng.watermelon.base.SimpleCastor;
+import net.wangjifeng.watermelon.base.WatermelonException;
 
 import java.lang.reflect.Array;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author: wjf
@@ -59,6 +57,24 @@ public class Nils {
     }
 
     /**
+     * 是否全都不是null。
+     *
+     * @param objs 对象
+     * @return 是否全都不是null
+     */
+    public static boolean isAllNotNull(Object... objs) {
+        if (isNil(objs)) {
+            return false;
+        }
+        for (Object obj : objs) {
+            if (isNil(obj)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * 验证一个对象是否是零值。
      *
      * @param obj 对象
@@ -78,7 +94,7 @@ public class Nils {
      */
     public static <T> T requireNonNil(T obj, String... msg) {
         if (!Nils.isNotNil(obj)) {
-            throw new UnsupportedOperationException(Nils.isNotNil(msg) ? msg[0] : "obj must not nil");
+            WatermelonException.throwEx(Nils.isNotNil(msg) ? msg[0] : "obj must not nil");
         }
         return obj;
     }
@@ -91,7 +107,7 @@ public class Nils {
      */
     public static void assertion(boolean expression, String message) {
         if (!expression) {
-            throw new IllegalStateException(message);
+            WatermelonException.throwEx(message);
         }
     }
 
