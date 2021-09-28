@@ -14,7 +14,7 @@ import java.util.Iterator;
  *
  * 数组的通用迭代器，Iterator<T>的泛型必须为一个数组。包括基本数据类型数组。
  */
-public class ArrayX<Arr, ArrItem> implements Iterator<ArrItem>, X {
+public class ArrayX<Arr, ArrItem> implements Iterator<ArrItem> {
 
     /**
      * 任何类型的数组，包括基本数据类型数组
@@ -55,11 +55,6 @@ public class ArrayX<Arr, ArrItem> implements Iterator<ArrItem>, X {
     @Override
     public void remove() {
         WatermelonException.throwEx("cannot remove items from an array");
-    }
-
-    @Override
-    public String description() {
-        return "数组的通用迭代器，Iterator<T>的泛型必须为一个数组。包括基本数据类型数组。";
     }
 
     /**

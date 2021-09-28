@@ -65,14 +65,14 @@ public class Maps {
     }
 
     /**
-     * 创建hashMap。
+     * 创建Map。
      *
      * @param cap 容量
      * @param <K> {@link K}
      * @param <V> {@link V}
      * @return HashMap<K, V>
      */
-    private static <K, V> HashMap<K, V> newMap(int... cap) {
+    public static <K, V> Map<K, V> newMap(int cap) {
         return newHashMap(cap);
     }
 

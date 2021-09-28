@@ -50,6 +50,16 @@ public class Lambdas {
         return r;
     }
 
+    /**
+     * 不变原样的转换。
+     *
+     * @param <R> {@link R}
+     * @return Fun<R, R>
+     */
+    public static <R> Fun<R, R> changeless() {
+        return r -> r;
+    }
+
     // ***** PRIVATE *****
 
     // ***** CLASS *****

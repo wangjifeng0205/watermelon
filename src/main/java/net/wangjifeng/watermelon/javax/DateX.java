@@ -15,7 +15,7 @@ import java.util.Date;
  *
  * 作为{@link java.util.Date}的扩展。
  */
-public class DateX extends Date implements X {
+public class DateX extends Date {
 
     private static final String yyyy_MM_dd_HH_mm_ss = "yyyy-MM-dd HH:mm:ss";
     private static final String yyyy_MM_dd = "yyyy-MM-dd";
@@ -281,11 +281,6 @@ public class DateX extends Date implements X {
         } catch (ParseException e) {
             throw WatermelonException.newEx(e.getMessage());
         }
-    }
-
-    @Override
-    public String description() {
-        return "作为{java.util.Date}的扩展。";
     }
 
     // ***** CLASS *****

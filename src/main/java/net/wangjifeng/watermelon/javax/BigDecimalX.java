@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  *
  * 作为{@link java.math.BigDecimal}的扩展。
  */
-public class BigDecimalX extends BigDecimal implements X {
+public class BigDecimalX extends BigDecimal {
 
     /**
      * 简单的复刻了父类的构造方法。
@@ -29,8 +29,4 @@ public class BigDecimalX extends BigDecimal implements X {
         return new BigDecimalX(value);
     }
 
-    @Override
-    public String description() {
-        return "作为{java.math.BigDecimal}的扩展。";
-    }
 }

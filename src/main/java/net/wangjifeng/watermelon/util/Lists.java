@@ -58,7 +58,7 @@ public class Lists {
      * @param <T> {@link T}
      * @return List<T>
      */
-    public static <T> List<T> newList(int... cap) {
+    public static <T> List<T> newList(int cap) {
         return newArrayList(cap);
     }
 

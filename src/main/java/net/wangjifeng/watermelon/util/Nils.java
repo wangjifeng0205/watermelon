@@ -63,11 +63,11 @@ public class Nils {
      * @return 是否全都不是null
      */
     public static boolean isAllNotNull(Object... objs) {
-        if (isNil(objs)) {
+        if (isNull(objs)) {
             return false;
         }
         for (Object obj : objs) {
-            if (isNil(obj)) {
+            if (isNull(obj)) {
                 return false;
             }
         }
@@ -82,6 +82,26 @@ public class Nils {
      */
     public static boolean isNil(Object obj) {
         return !isNotNil(obj);
+    }
+
+    /**
+     * 验证一个对象是否是null。
+     *
+     * @param obj 对象
+     * @return 是否是null
+     */
+    public static boolean isNull(Object obj) {
+        return null == obj;
+    }
+
+    /**
+     * 验证一个对象是否不是null。
+     *
+     * @param obj 对象
+     * @return 是否不是null
+     */
+    public static boolean isNotNull(Object obj) {
+        return !isNull(obj);
     }
 
     /**
@@ -105,9 +125,9 @@ public class Nils {
      * @param expression 表达式
      * @param message 断言不成立时的提示
      */
-    public static void assertion(boolean expression, String message) {
+    public static void assertion(boolean expression, String... message) {
         if (!expression) {
-            WatermelonException.throwEx(message);
+            WatermelonException.throwEx(isNotNil(message) ? message[0] : "assertion is fail");
         }
     }
 
@@ -121,6 +141,18 @@ public class Nils {
      */
     public static <T> T isNilOrDefault(T obj, T defaultT) {
         return Nils.isNotNil(obj) ? obj : defaultT;
+    }
+
+    /**
+     * 验证一个对象是不是null，如果是则取默认值。
+     *
+     * @param obj 对象
+     * @param defaultT 默认值
+     * @param <T> 泛型
+     * @return 对象
+     */
+    public static <T> T isNullOrDefault(T obj, T defaultT) {
+        return Nils.isNotNull(obj) ? obj : defaultT;
     }
 
     // ***** PRIVATE *****
