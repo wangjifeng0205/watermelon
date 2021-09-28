@@ -40,7 +40,7 @@ public class LargeText implements Iterator<String> {
             throw new IllegalArgumentException("Reader must not be null");
         }
         if (reader instanceof BufferedReader) {
-            bufferedReader = (BufferedReader) reader;
+            bufferedReader = new SimpleCastor<Reader, BufferedReader>().cast(reader) ;
         } else {
             bufferedReader = new BufferedReader(reader);
         }
