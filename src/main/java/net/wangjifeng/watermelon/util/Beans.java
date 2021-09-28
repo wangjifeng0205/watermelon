@@ -77,6 +77,27 @@ public class Beans {
         }
     }
 
+    /**
+     * 是否有无参构造方法。
+     *
+     * @param clazz BeanClass
+     * @return 是否有无参构造方法
+     */
+    public static boolean hasNoArgsConstructor(Class<?> clazz) {
+        try {
+            Constructor<?> constructor = clazz.getConstructor();
+            if (Nils.isNil(constructor)) {
+                return false;
+            }
+            if (!constructor.isAccessible()) {
+                return false;
+            }
+        } catch (NoSuchMethodException e) {
+            return false;
+        }
+        return true;
+    }
+
     // ***** PRIVATE *****
 
     // ***** CLASS *****
