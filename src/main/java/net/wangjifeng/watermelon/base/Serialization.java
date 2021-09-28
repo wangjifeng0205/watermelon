@@ -86,7 +86,7 @@ public class Serialization<T> {
      * @param t byte[]
      * @return 对象 {@link T}
      */
-    public T serialize(byte[] t) {
+    public T deserialize(byte[] t) {
         return this.deserializer.fun(t);
     }
 
