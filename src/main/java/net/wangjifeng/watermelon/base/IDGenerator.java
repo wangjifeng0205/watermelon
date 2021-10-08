@@ -43,6 +43,7 @@ public class IDGenerator implements Producer<String> {
      *
      * @return uuid
      */
+    @SuppressWarnings("all")
     private UUID generateUUID() {
         long leastSigBits = this.leastSigBits.incrementAndGet();
         if (leastSigBits == 0) {

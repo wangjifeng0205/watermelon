@@ -27,6 +27,7 @@ public class Beans {
      */
     public static <T> T newBean(Class<T> clazz) {
         Nils.requireNonNil(clazz);
+        Nils.assertion(hasNoArgsConstructor(clazz), String.format("%s does not have a public parameterless constructor", clazz.getTypeName()));
         try {
             Constructor<T> constructor = clazz.getConstructor();
             return constructor.newInstance();

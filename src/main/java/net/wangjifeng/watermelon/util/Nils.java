@@ -48,7 +48,7 @@ public class Nils {
             return Nils.<Object, Iterable<?>>getSimpleCastor().cast(obj).iterator().hasNext();
         } else if (obj instanceof Iterator<?>) {
             return Nils.<Object, Iterator<?>>getSimpleCastor().cast(obj).hasNext();
-        } else if (obj instanceof Optional) {
+        } else if (obj instanceof Optional<?>) {
             return Nils.<Object, Optional<?>>getSimpleCastor().cast(obj).isPresent();
         } else if (obj.getClass().isArray()) {
             return Array.getLength(obj) != 0;
