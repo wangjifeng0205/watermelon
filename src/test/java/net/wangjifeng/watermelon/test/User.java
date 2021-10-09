@@ -6,7 +6,7 @@ package net.wangjifeng.watermelon.test;
  *
  * 测试用户对象。
  */
-public class User {
+public class User implements TestInterface {
 
     private String username;
 
@@ -14,6 +14,7 @@ public class User {
 
     private String sex;
 
+    @Override
     public String getUsername() {
         return username;
     }

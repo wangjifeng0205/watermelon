@@ -3,6 +3,7 @@ package net.wangjifeng.watermelon.util;
 import net.wangjifeng.watermelon.Consumer;
 import net.wangjifeng.watermelon.Fun;
 import net.wangjifeng.watermelon.Producer;
+import net.wangjifeng.watermelon.Run;
 
 /**
  * @author: wjf
@@ -58,6 +59,28 @@ public class Lambdas {
      */
     public static <R> Fun<R, R> changeless() {
         return r -> r;
+    }
+
+    /**
+     * 当obj不为空时，执行run。
+     *
+     * @param obj obj
+     * @param run run
+     */
+    public static void notNullExec(Object obj, Run run) {
+        exec(() -> Nils.isNotNull(obj), run);
+    }
+
+    /**
+     * 当符合producer为true时，执行run。
+     *
+     * @param producer producer
+     * @param run run
+     */
+    public static void exec(Producer<Boolean> producer, Run run) {
+        if (Boolean.TRUE.equals(producer.produce())) {
+            run.run();
+        }
     }
 
     // ***** PRIVATE *****
