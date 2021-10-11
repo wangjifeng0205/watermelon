@@ -2,6 +2,7 @@ package net.wangjifeng.watermelon.util;
 
 import net.wangjifeng.watermelon.Fun;
 import net.wangjifeng.watermelon.base.Castor;
+import net.wangjifeng.watermelon.base.Ref;
 import net.wangjifeng.watermelon.base.SimpleCastor;
 
 import java.util.ArrayList;
@@ -91,6 +92,18 @@ public class Maps {
         }
         properties.forEach((k, v) -> Beans.setProperty(k, bean, v));
         return bean;
+    }
+
+    /**
+     * map转化为对象。
+     *
+     * @param properties 属性
+     * @param ref      对象引用
+     * @param <T>        {@link T}
+     * @return {@link T}
+     */
+    public static <T> T mapToObj(Map<String, Object> properties, Ref<T> ref) {
+        return mapToObj(properties, ref.getClazz());
     }
 
     // ***** PRIVATE *****
