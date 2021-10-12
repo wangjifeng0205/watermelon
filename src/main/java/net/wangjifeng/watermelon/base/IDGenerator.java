@@ -39,6 +39,15 @@ public class IDGenerator implements Producer<String> {
     }
 
     /**
+     * 构建一个id生成器。
+     *
+     * @return IDGenerator
+     */
+    public static IDGenerator build() {
+        return new IDGenerator();
+    }
+
+    /**
      * 生成uuid。
      *
      * @return uuid
