@@ -266,6 +266,17 @@ public class DateX extends Date {
         return calendar;
     }
 
+    /**
+     * 格式化日期时间。默认为[yyyy-MM-dd HH:mm:ss]。
+     *
+     * @param pattern 格式化模板字符串
+     * @return yyyy-MM-dd HH:mm:ss格式的时间字符串表示
+     */
+    public String format(String... pattern) {
+        pattern = Nils.isNilOrDefault(pattern, new String[]{yyyy_MM_dd_HH_mm_ss});
+        return newDateFormat(pattern[0]).format(this);
+    }
+
     // ***** PRIVATE *****
 
     /**
