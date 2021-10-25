@@ -34,12 +34,12 @@ public class DynamicProxy<I> {
     /**
      * 对象转换器
      */
-    private final Castor<Object, I> objCastor = new SimpleCastor<>();
+    private final Castor<Object, I> objCastor = SimpleCastor.getSimpleCastor();
 
     /**
      * 字节码转换器
      */
-    private final Castor<Class<?>, Class<I>> classCastor = new SimpleCastor<>();
+    private final Castor<Class<?>, Class<I>> classCastor = SimpleCastor.getSimpleCastor();
 
     /**
      * 前置

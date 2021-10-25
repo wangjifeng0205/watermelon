@@ -16,4 +16,15 @@ public class SimpleCastor<T, R> implements Castor<T, R> {
         return defaultCast().cast(t);
     }
 
+    /**
+     * 获取简单的类型转换器。
+     *
+     * @param <T> {@link T}
+     * @param <R> {@link R}
+     * @return Castor<T, R>
+     */
+    public static <T, R> Castor<T, R> getSimpleCastor() {
+        return new SimpleCastor<>();
+    }
+
 }

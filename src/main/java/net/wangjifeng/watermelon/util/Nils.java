@@ -39,17 +39,17 @@ public class Nils {
             return false;
         }
         if (obj instanceof CharSequence) {
-            return isNotBlank(Nils.<Object, CharSequence>getSimpleCastor().cast(obj));
+            return isNotBlank(SimpleCastor.<Object, CharSequence>getSimpleCastor().cast(obj));
         } else if (obj instanceof Collection<?>) {
-            return !Nils.<Object, Collection<?>>getSimpleCastor().cast(obj).isEmpty();
+            return !SimpleCastor.<Object, Collection<?>>getSimpleCastor().cast(obj).isEmpty();
         } else if (obj instanceof Map<?, ?>) {
-            return !Nils.<Object, Map<?, ?>>getSimpleCastor().cast(obj).isEmpty();
+            return !SimpleCastor.<Object, Map<?, ?>>getSimpleCastor().cast(obj).isEmpty();
         } else if (obj instanceof Iterable<?>) {
-            return Nils.<Object, Iterable<?>>getSimpleCastor().cast(obj).iterator().hasNext();
+            return SimpleCastor.<Object, Iterable<?>>getSimpleCastor().cast(obj).iterator().hasNext();
         } else if (obj instanceof Iterator<?>) {
-            return Nils.<Object, Iterator<?>>getSimpleCastor().cast(obj).hasNext();
+            return SimpleCastor.<Object, Iterator<?>>getSimpleCastor().cast(obj).hasNext();
         } else if (obj instanceof Optional<?>) {
-            return Nils.<Object, Optional<?>>getSimpleCastor().cast(obj).isPresent();
+            return SimpleCastor.<Object, Optional<?>>getSimpleCastor().cast(obj).isPresent();
         } else if (obj.getClass().isArray()) {
             return Array.getLength(obj) != 0;
         }
@@ -174,17 +174,6 @@ public class Nils {
 
         }
         return false;
-    }
-
-    /**
-     * 获取简单的类型转换器。
-     *
-     * @param <T> {@link T}
-     * @param <R> {@link R}
-     * @return Castor<T, R>
-     */
-    private static <T, R> Castor<T, R> getSimpleCastor() {
-        return new SimpleCastor<>();
     }
 
     // ***** CLASS *****
