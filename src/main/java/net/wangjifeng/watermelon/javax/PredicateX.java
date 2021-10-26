@@ -131,7 +131,7 @@ public class PredicateX {
 
         @Override
         public String toString() {
-            return "Predicates.or(" + Lists.joining(this.components, ",") + ")";
+            return "PredicateX.or(" + Lists.joining(this.components, ",") + ")";
         }
         private static final long serialVersionUID = 0;
     }
@@ -169,7 +169,7 @@ public class PredicateX {
 
         @Override
         public String toString() {
-            return "Predicates.not(" + predicate.toString() + ")";
+            return "PredicateX.not(" + predicate.toString() + ")";
         }
         private static final long serialVersionUID = 0;
     }
