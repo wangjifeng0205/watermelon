@@ -1,6 +1,7 @@
 package net.wangjifeng.watermelon.util;
 
 import net.wangjifeng.watermelon.Fun;
+import net.wangjifeng.watermelon.base.SimpleCastor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +35,20 @@ public class Lists {
         }
         Nils.requireNonNil(fun);
         return source.stream().map(fun::fun).collect(Collectors.toList());
+    }
+
+    /**
+     * 在每个元素之间插入一个连接符。泛型会调用对应的toString方法。
+     *
+     * @param list list
+     * @param join 连接符
+     * @return 连接之后的字符串
+     */
+    public static String joining(List<?> list, String join) {
+        if (Nils.isNil(list)) {
+            return SimpleCastor.<Object, String>getSimpleCastor().cast(WatermelonConstants.WatermelonConstant.Str.constant());
+        }
+        return list.stream().map(Object::toString).collect(Collectors.joining(join));
     }
 
     /**
