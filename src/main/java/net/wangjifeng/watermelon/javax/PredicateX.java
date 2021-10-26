@@ -158,7 +158,8 @@ public class PredicateX {
             return ~predicate.hashCode();
         }
 
-        @Override public boolean equals(Object obj) {
+        @Override
+        public boolean equals(Object obj) {
             if (obj instanceof NotPredicate) {
                 NotPredicate<?> that = (NotPredicate<?>) obj;
                 return predicate.equals(that.predicate);
