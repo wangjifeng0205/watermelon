@@ -14,12 +14,12 @@ import java.util.Iterator;
  *
  * 数组的通用迭代器，Iterator<T>的泛型必须为一个数组。包括基本数据类型数组。
  */
-public class ArrayX<Arr, ArrItem> implements Iterator<ArrItem> {
+public class ArrayX<E> implements Iterator<E> {
 
     /**
      * 任何类型的数组，包括基本数据类型数组
      */
-    private final Arr array;
+    private final Object array;
 
     /**
      * 当前元素的index
@@ -29,14 +29,14 @@ public class ArrayX<Arr, ArrItem> implements Iterator<ArrItem> {
     /**
      * 类型转换器
      */
-    private final Castor<Object, ArrItem> castor = new SimpleCastor<>();
+    private final Castor<Object, E> castor = new SimpleCastor<>();
 
     /**
      * 私有的构造方法，需要传入一个数组。
      *
-     * @param array {@link Arr}
+     * @param array {@link E}
      */
-    private ArrayX(Arr array) {
+    private ArrayX(Object array) {
         Nils.requireNonNil(array);
         Nils.assertion(array.getClass().isArray(), "not an array");
         this.array = array;
@@ -48,7 +48,7 @@ public class ArrayX<Arr, ArrItem> implements Iterator<ArrItem> {
     }
 
     @Override
-    public ArrItem next() {
+    public E next() {
         return castor.cast(Array.get(this.array, this.currentIndex++));
     }
 
@@ -61,11 +61,10 @@ public class ArrayX<Arr, ArrItem> implements Iterator<ArrItem> {
      * 创建一个Array的扩展。
      *
      * @param array 数组
-     * @param <A> 数组的泛型
-     * @param <AI> 数组元素的泛型
-     * @return {@link AI}
+     * @param <T> 数组元素的泛型
+     * @return ArrayX<T>
      */
-    public static <A, AI> ArrayX<A, AI> newArrayX(Object array) {
-        return new ArrayX<>(new SimpleCastor<Object, A>().cast(array));
+    public static <T> ArrayX<T> newArrayX(Object array) {
+        return new ArrayX<>(array);
     }
 }
