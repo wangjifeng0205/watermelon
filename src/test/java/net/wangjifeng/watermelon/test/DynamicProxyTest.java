@@ -1,5 +1,6 @@
 package net.wangjifeng.watermelon.test;
 
+import net.wangjifeng.watermelon.Consumer;
 import net.wangjifeng.watermelon.base.DynamicProxy;
 import org.junit.Test;
 
@@ -13,7 +14,27 @@ public class DynamicProxyTest {
     public void test() {
         User user = new User();
         user.setUsername("wjf");
-        DynamicProxy<TestInterface> proxy = new DynamicProxy<>(user, u -> System.out.println("before:" + u), u -> System.out.println("after:" + u));
+        DynamicProxy<TestInterface> proxy = new DynamicProxy<TestInterface>(user) {
+            @Override
+            public <T> Consumer<T> before() {
+                return null;
+            }
+
+            @Override
+            public <T> Consumer<T> after() {
+                return null;
+            }
+
+            @Override
+            public Consumer<Throwable> throwing() {
+                return null;
+            }
+
+            @Override
+            public <T> Consumer<T> ultimate() {
+                return null;
+            }
+        };
         System.out.println(proxy.getProxy().getUsername());
     }
 

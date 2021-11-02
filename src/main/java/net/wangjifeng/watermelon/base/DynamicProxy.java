@@ -14,7 +14,7 @@ import java.lang.reflect.Proxy;
  *
  * @param <I> 被代理的对象所实现的一个接口。
  */
-public class DynamicProxy<I> {
+public abstract class DynamicProxy<I> {
 
     /**
      * 被代理的对象
@@ -42,29 +42,46 @@ public class DynamicProxy<I> {
     private final Castor<Class<?>, Class<I>> classCastor = SimpleCastor.getSimpleCastor();
 
     /**
-     * 前置
-     */
-    private final Consumer<I> before;
-
-    /**
-     * 后置
-     */
-    private final Consumer<I> after;
-
-    /**
      * 构造函数，需要提供被代理的对象，前置和后置都可以为空。
      *
      * @param target 被代理的对象
-     * @param before 前置
-     * @param after 后置
      */
-    public DynamicProxy(I target, Consumer<I> before, Consumer<I> after) {
+    public DynamicProxy(I target) {
         this.target = Nils.requireNonNil(target);
         this.targetClass = classCastor.cast(this.target.getClass());
-        this.before = before;
-        this.after = after;
-        this.proxy = newProxy(before, after);
+        this.proxy = newProxy();
     }
+
+    /**
+     * 前置通知。
+     *
+     * @param <T> {@link T}
+     * @return {@link T}
+     */
+    public abstract <T> Consumer<T> before();
+
+    /**
+     * 后置通知。
+     *
+     * @param <T> {@link T}
+     * @return {@link T}
+     */
+    public abstract <T> Consumer<T> after();
+
+    /**
+     * 异常通知。
+     *
+     * @return Throwable
+     */
+    public abstract Consumer<Throwable> throwing();
+
+    /**
+     * 最终通知。
+     *
+     * @param <T> {@link T}
+     * @return {@link T}
+     */
+    public abstract <T> Consumer<T> ultimate();
 
     /**
      * 获取代理对象。
@@ -84,7 +101,7 @@ public class DynamicProxy<I> {
     public I reset(I target) {
         this.target = target;
         this.targetClass = classCastor.cast(this.target.getClass());
-        this.proxy = newProxy(this.before, this.after);
+        this.proxy = newProxy();
         return this.proxy;
     }
 
@@ -96,15 +113,27 @@ public class DynamicProxy<I> {
      * @return I
      */
     @SuppressWarnings("all")
-    private I newProxy(Consumer<I> before, Consumer<I> after) {
+    private I newProxy() {
         return objCastor.cast(
                 Proxy.newProxyInstance(
                         DynamicProxy.class.getClassLoader(),
                         this.targetClass.getInterfaces(),
                         (proxy, method, args) -> {
-                            Lambdas.notNullExec(before, () -> before.consume(DynamicProxy.this.target));
-                            Object result = method.invoke(DynamicProxy.this.target, args);
-                            Lambdas.notNullExec(after, () -> after.consume(DynamicProxy.this.target));
+                            Object result = null;
+                            try {
+                                Consumer<I> before = before();
+                                Lambdas.notNullExec(before, () -> before.consume(DynamicProxy.this.target));
+                                result = method.invoke(DynamicProxy.this.target, args);
+                                Consumer<I> after = after();
+                                Lambdas.notNullExec(after, () -> after.consume(DynamicProxy.this.target));
+                            } catch (Exception e) {
+                                Consumer<Throwable> throwing = throwing();
+                                Lambdas.notNullExec(throwing, () -> throwing.consume(e));
+                            } finally {
+                                Consumer<Object> ultimate = ultimate();
+                                final Object duplicate = result;
+                                Lambdas.notNullExec(ultimate, () -> ultimate.consume(duplicate));
+                            }
                             return result;
                         }
                 )
