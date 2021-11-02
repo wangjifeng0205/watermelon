@@ -16,12 +16,12 @@ public class Pointer {
     /**
      * 当前对象。
      */
-    private Object object;
+    private final Object object;
 
     /**
      * 对象所对应的地址hash。
      */
-    private int hash;
+    private final int hash;
 
     /**
      * null-pointer。
@@ -91,11 +91,29 @@ public class Pointer {
      * @param object 对象
      * @return 指针
      */
-    public static Pointer ref(Object object) {
+    public static Pointer pointer(Object object) {
         if (Nils.isNull(object)) {
             return NULL_POINTER;
         }
         return new Pointer(object);
+    }
+
+    /**
+     * 根据指针获取对象。
+     *
+     * @return Object
+     */
+    public Object ref() {
+        return this.object;
+    }
+
+    /**
+     * 获取对象的hash。
+     *
+     * @return hash
+     */
+    public int hash() {
+        return this.hash;
     }
 
     private static class NullPointer extends Pointer {
