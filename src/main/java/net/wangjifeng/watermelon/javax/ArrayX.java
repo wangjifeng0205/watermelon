@@ -67,4 +67,20 @@ public class ArrayX<E> implements Iterator<E> {
     public static <T> ArrayX<T> newArrayX(Object array) {
         return new ArrayX<>(array);
     }
+
+    /**
+     * 创建一个数组。
+     *
+     * @param clazz 数组元素的类型，可以是基本数据类型
+     * @param length 数组的长度
+     * @param <T> {@link T}
+     * @return 一个长度为length的T[]，当class为基本数据类型时，返回的数组将是对应的包装类
+     */
+    public static <T> T[] newArray(Class<T> clazz, int length) {
+        if (clazz.isPrimitive()) {
+            clazz = SimpleCastor.<Class<?>, Class<T>>getSimpleCastor().cast(Pointer.getWrapper(clazz.getName()));
+        }
+        return SimpleCastor.<Object, T[]>getSimpleCastor().cast(Array.newInstance(clazz, length));
+    }
+
 }
