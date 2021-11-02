@@ -15,7 +15,8 @@ import java.util.concurrent.*;
  *
  * 一个多任务的执行器，可以将一个大任务拆分成多个小任务执行，最终合并得到一个完整的结果。
  */
-public class ListForkJoinExecutor<T, R> {
+@SuppressWarnings("all")
+public class ListForkJoinTask<T, R> {
 
     /**
      * 每个子任务所处理的最大元素个数。
@@ -28,16 +29,16 @@ public class ListForkJoinExecutor<T, R> {
     private List<T> list;
 
     /**
-     * 超时时间
+     * 超时时间。
      */
     private int timeout = 3;
 
     /**
-     * 时间单位
+     * 时间单位。
      */
     private TimeUnit timeUnit = TimeUnit.SECONDS;
 
-    public ListForkJoinExecutor(int size, List<T> list, int timeout, TimeUnit timeUnit) {
+    public ListForkJoinTask(int size, List<T> list, int timeout, TimeUnit timeUnit) {
         Nils.requireNonNil(size);
         Nils.requireNonNil(list);
         Nils.requireNonNil(timeout);
@@ -53,7 +54,7 @@ public class ListForkJoinExecutor<T, R> {
         ForkJoinPool forkJoinPool = null;
         try {
             forkJoinPool = new ForkJoinPool();
-            ForkJoinTask<List<R>> joinTask = forkJoinPool.submit(new ForkJoinSubTask<>(this.size, this.list, go));
+            ForkJoinTask<List<R>> joinTask = forkJoinPool.submit(new ListForkJoinSubTask<>(this.size, this.list, go));
 
             boolean flag;
             do {
@@ -71,7 +72,7 @@ public class ListForkJoinExecutor<T, R> {
         }
     }
 
-    private static class ForkJoinSubTask<T, R> extends RecursiveTask<List<R>> {
+    private static class ListForkJoinSubTask<T, R> extends RecursiveTask<List<R>> {
 
         /**
          * 任务所处理的最大元素个数。
@@ -88,7 +89,7 @@ public class ListForkJoinExecutor<T, R> {
          */
         private final Go<T, R> go;
 
-        public ForkJoinSubTask(int size, List<T> currentList, Go<T, R> go) {
+        public ListForkJoinSubTask(int size, List<T> currentList, Go<T, R> go) {
             Objects.requireNonNull(currentList);
             Objects.requireNonNull(go);
             this.size = size;
@@ -102,26 +103,26 @@ public class ListForkJoinExecutor<T, R> {
                 return Collections.emptyList();
             }
             int size = this.currentList.size();
-            if (size < this.size) {
+            if (size <= this.size) {
                 return go.go(this.currentList);
-            } else {
-                int index = size / 2;
-                ForkJoinSubTask<T, R> leftTask = new ForkJoinSubTask<>(this.size, this.currentList.subList(0, index), this.go);
-                ForkJoinSubTask<T, R> rightTask = new ForkJoinSubTask<>(this.size, this.currentList.subList(index, size), this.go);
-                leftTask.fork();
-                rightTask.fork();
-                List<R> leftList = leftTask.join();
-                List<R> rightList = rightTask.join();
-                List<R> result = Lists.newList();
-
-                if (Nils.isNotNil(leftList)) {
-                    result.addAll(leftList);
-                }
-                if (Nils.isNotNil(rightList)) {
-                    result.addAll(rightList);
-                }
-                return result;
             }
+
+            int index = size / 2;
+            ListForkJoinSubTask<T, R> leftTask = new ListForkJoinSubTask<>(this.size, this.currentList.subList(0, index), this.go);
+            ListForkJoinSubTask<T, R> rightTask = new ListForkJoinSubTask<>(this.size, this.currentList.subList(index, size), this.go);
+            leftTask.fork();
+            rightTask.fork();
+            List<R> leftList = leftTask.join();
+            List<R> rightList = rightTask.join();
+            List<R> result = Lists.newList();
+
+            if (Nils.isNotNil(leftList)) {
+                result.addAll(leftList);
+            }
+            if (Nils.isNotNil(rightList)) {
+                result.addAll(rightList);
+            }
+            return result;
         }
 
     }
