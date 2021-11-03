@@ -56,10 +56,7 @@ public class ListForkJoinTask<T, R> {
             forkJoinPool = new ForkJoinPool();
             ForkJoinTask<List<R>> joinTask = forkJoinPool.submit(new ListForkJoinSubTask<>(this.size, this.list, go));
 
-            boolean flag;
-            do {
-                flag = forkJoinPool.awaitTermination(this.timeout, this.timeUnit);
-            } while (!flag);
+            forkJoinPool.awaitTermination(this.timeout, this.timeUnit);
 
             forkJoinPool.shutdown();
             return joinTask.get();
